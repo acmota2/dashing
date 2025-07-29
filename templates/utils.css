@@ -1,0 +1,33 @@
+a {
+  display: flex;
+  flex-grow: 1;
+  width: 100%;
+  min-width: 12em;
+}
+
+a:link {
+  color: white;
+  text-decoration: none;
+}
+
+a:visited {
+  color: white;
+  text-decoration: none;
+}
+
+article {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  align-items: center;
+  padding: 14px;
+  gap: 14px;
+  border: solid 2px white;
+  border-radius: 5px;
+  font: bold 18px;
+}
+
+.proxmox-icon {
+  width: 2.5em;
+  height: 2.5em;
+}

@@ -1,0 +1,10 @@
+{%- for section in sections %}
+<div class="util-section" id="{{ section.name }}">
+  <span id="{{ section.name }}">{{ section.name }}</span>
+  <div class="link-section">{% include "utils.html" %}</div>
+</div>
+{% endfor %}
+
+<style>
+  {% include "utils-section.css" %}
+</style>

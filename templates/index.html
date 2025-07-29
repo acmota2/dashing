@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Dashing</title>
+    <meta charset="UTF-8" />
+    <link
+      href="https://fonts.googleapis.com/css?family=JetBrains Mono"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
+  </head>
+
+  <body>
+    <header class="rounded-area" id="top">
+      <h1 id="server-name">{{ server_name }}</h1>
+    </header>
+    <main>
+      <section
+        class="rounded-area"
+        id="utils-section"
+        hx-trigger="load"
+        hx-get="/utils"
+        hx-swap="innerHTML"
+      >
+        <p>Loading...</p>
+      </section>
+      <section
+        class="rounded-area"
+        id="useful-links"
+        hx-trigger="load"
+        hx-get="/links"
+        hx-swap="innerHTML"
+      >
+        <p>Loading...</p>
+      </section>
+    </main>
+    <footer>acmota2 © 2025</footer>
+  </body>
+
+  <style>
+    {% include "style.css" %}
+  </style>
+</html>
