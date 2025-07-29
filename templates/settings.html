@@ -1,0 +1,22 @@
+<section class="rounded-area">
+  <form>
+    {% for section in sections %}
+    <fieldset>
+      <legend>{{ section_name }}</legend>
+      {% for link in section %}
+      <div class="link">
+        <input type="text" placeholder="Name..." name="link_name" />
+        <div class="domain">
+          <p>https://</p>
+          <input type="text" placeholder="Domain..." name="domain" />
+        </div>
+      </div>
+      {% endfor %}
+    </fieldset>
+    {% endfor %}
+    <div id="button-area">
+      <button>Ok</button>
+      <button>Cancel</button>
+    </div>
+  </form>
+</section>
