@@ -1,58 +1,83 @@
-use std::iter;
 use std::sync::Arc;
 
-use axum::{extract::State, response::Html};
-use minijinja::{Environment, context};
+use axum::{Form, extract::State, response::Html};
+use minijinja::context;
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize, Clone)]
-pub struct Link {
-    pub name: String,
-    pub link: String,
-    pub icon: Option<String>,
+use crate::config::{AppState, Link, ServerConfig, UtilSection};
+
+pub async fn root(State(state): State<Arc<AppState>>) -> Html<String> {
+    let index = state.environment.get_template("index.html").unwrap();
+    Html(
+        index
+            .render(context! { server_name => state.config.server_name, is_home_route => true })
+            .unwrap(),
+    )
 }
 
-#[derive(Serialize, Deserialize, Clone)]
-pub struct UtilSection {
-    pub name: String,
-    pub utils: Vec<Link>,
-}
-
-pub async fn root(State(env): State<Arc<Environment<'static>>>) -> Html<String> {
-    let index = env.get_template("index.html").unwrap();
-    Html(index.render(context! { server_name => "Blaze" }).unwrap())
-}
-
-pub async fn icons(State(env): State<Arc<Environment<'static>>>) -> Html<String> {
-    let icons = env.get_template("util-section.html").unwrap();
-    let link = iter::repeat(Link {
-        name: "Proxmox".to_owned(),
-        link: "https://pve.home.voldemota.xyz".to_owned(),
-        icon: Some(
-            "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/proxmox.svg".to_owned(),
-        ),
-    });
-    let utils = iter::repeat(UtilSection {
-        name: "Management".to_owned(),
-        utils: link.take(30).collect(),
-    });
+pub async fn icons(State(state): State<Arc<AppState>>) -> Html<String> {
+    let icons = state.environment.get_template("util-section.html").unwrap();
     Html(
         icons
-            .render(context! { sections => utils.take(3).collect::<Vec<UtilSection>>() })
+            .render(context! { sections => state.config.sections })
             .unwrap(),
     )
 }
 
-pub async fn links(State(env): State<Arc<Environment<'static>>>) -> Html<String> {
-    let links = env.get_template("links.html").unwrap();
-    let links_collection = iter::repeat(Link {
-        name: "YouTube".to_owned(),
-        link: "https://youtube.com".to_owned(),
-        icon: Some("/assets/fontawesome-youtube.svg".to_owned()),
-    });
+pub async fn links(State(state): State<Arc<AppState>>) -> Html<String> {
+    let links = state.environment.get_template("links.html").unwrap();
     Html(
         links
-            .render(context! { links => links_collection.take(3).collect::<Vec<Link>>() })
+            .render(context! { links => state.config.links })
             .unwrap(),
     )
+}
+
+pub async fn settings(State(state): State<Arc<AppState>>) -> Html<String> {
+    let settings = state.environment.get_template("index.html").unwrap();
+    Html(
+        settings
+            .render(context! { is_home_route => false, server_name => state.config.server_name, sections => state.config.sections })
+            .unwrap(),
+    )
+}
+
+pub async fn settings_section(State(state): State<Arc<AppState>>) -> Html<String> {
+    let settings_sections = state
+        .environment
+        .get_template("settings-section.html")
+        .unwrap();
+    Html(
+        settings_sections
+            .render(context! {
+            section => UtilSection {
+                name: "".to_owned(),
+                utils: vec![],
+            }})
+            .unwrap(),
+    )
+}
+
+pub async fn settings_link(State(state): State<Arc<AppState>>) -> Html<String> {
+    let settings_links = state
+        .environment
+        .get_template("settings-link.html")
+        .unwrap();
+    Html(
+        settings_links
+            .render(
+                context! { link => Link { name: "".to_owned(), link: "".to_owned(), icon: None }},
+            )
+            .unwrap(),
+    )
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct FormItems {
+    pub items: Vec<UtilSection>,
+}
+
+pub async fn settings_post(Form(new_sections): Form<FormItems>) -> () {
+    // Html<String> {
+    println!("{:?}", new_sections);
 }

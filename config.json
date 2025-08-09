@@ -1,0 +1,22 @@
+{
+  "server_name": "Blaze",
+  "sections": [
+    {
+      "name": "Management",
+      "utils": [
+        {
+          "name": "Proxmox",
+          "link": "https://pve.home.voldemota.xyz",
+          "icon": "/assets/proxmox.svg"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "name": "YouTube",
+      "link": "https://youtube.com",
+      "icon": "/assets/fontawesome-youtube.svg"
+    }
+  ]
+}

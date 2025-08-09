@@ -7,14 +7,41 @@
       href="https://fonts.googleapis.com/css?family=JetBrains Mono"
       rel="stylesheet"
     />
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"
+      integrity="sha384-Akqfrbj/HpNVo8k11SXBb6TlBWmXXlYQrCSqEWmyKJe+hDm3Z/B2WVG4smwBkRVm"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
   </head>
 
   <body>
     <header class="rounded-area" id="top">
-      <h1 id="server-name">{{ server_name }}</h1>
+      <a
+        href="/"
+        id="home"
+        hx-trigger="click"
+        hx-select="main"
+        hx-target="main"
+        hx-boost="true"
+        hx-swap="outerHTML"
+      >
+        <h1 id="server-name" hx-boost="false">{{ server_name }}</h1>
+      </a>
+      <a
+        href="/settings"
+        id="settings"
+        hx-trigger="click"
+        hx-select="main"
+        hx-target="main"
+        hx-boost="true"
+        hx-swap="outerHTML"
+      >
+        <img src="/assets/settings.svg" hx-boost="false" />
+      </a>
     </header>
-    <main>
+    <main id="main">
+      {% if is_home_route %}
       <section
         class="rounded-area"
         id="utils-section"
@@ -33,11 +60,45 @@
       >
         <p>Loading...</p>
       </section>
+      {% else %}
+      <section class="rounded-area settings">
+        <form hx-post="/settings-post" class="settings-form" hx-ext="debug">
+          <ul
+            id="sections-area"
+            _="on htmx:afterSettle
+                  get last .list-item-section in me
+                  for input in result.list-item-section.section
+                    set input's @name to its @name.replace('__INDEX__', itemIndex)
+                  end then
+                  increment itemIndex"
+          >
+            {% for section in sections %} {% include "settings-section.html" %}
+            {% endfor %}
+          </ul>
+          <div id="button-area">
+            <button
+              type="button"
+              class="settings-button"
+              hx-get="/htmx/settings-section"
+              hx-swap="beforeend"
+              hx-target="#sections-area"
+            >
+              Add section
+            </button>
+            <button type="submit" class="settings-button" id="settings-ok">
+              Ok
+            </button>
+          </div>
+        </form>
+      </section>
+      {% endif %}
     </main>
     <footer>acmota2 © 2025</footer>
   </body>
 
   <style>
     {% include "style.css" %}
+
+    {% include "settings.css" %}
   </style>
 </html>
