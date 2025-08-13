@@ -10,6 +10,10 @@
     <input
       value="{{ section.name }}"
       name="items[__INDEX__][section_name]"
+      _="on load
+           set my @name to @name.replace('__INDEX__', $itemIndex)
+           increment $itemIndex
+         end"
       class="settings-input"
       id="section-name-input"
     />

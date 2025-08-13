@@ -63,15 +63,7 @@
       {% else %}
       <section class="rounded-area settings">
         <form hx-post="/settings-post" class="settings-form" hx-ext="debug">
-          <ul
-            id="sections-area"
-            _="on htmx:afterSettle
-                  get last .list-item-section in me
-                  for input in result.list-item-section.section
-                    set input's @name to its @name.replace('__INDEX__', itemIndex)
-                  end then
-                  increment itemIndex"
-          >
+          <ul id="sections-area" _="init set $itemIndex to 0">
             {% for section in sections %} {% include "settings-section.html" %}
             {% endfor %}
           </ul>
