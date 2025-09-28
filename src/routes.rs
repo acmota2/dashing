@@ -4,7 +4,7 @@ use axum::{Form, extract::State, response::Html};
 use minijinja::context;
 use serde::{Deserialize, Serialize};
 
-use crate::config::{AppState, Link, ServerConfig, UtilSection};
+use crate::config::{AppState, Link, UtilSection};
 
 pub async fn root(State(state): State<Arc<AppState>>) -> Html<String> {
     let index = state.environment.get_template("index.html").unwrap();
@@ -42,7 +42,7 @@ pub async fn settings(State(state): State<Arc<AppState>>) -> Html<String> {
     )
 }
 
-pub async fn settings_section(State(state): State<Arc<AppState>>) -> Html<String> {
+pub async fn new_settings_section(State(state): State<Arc<AppState>>) -> Html<String> {
     let settings_sections = state
         .environment
         .get_template("settings-section.html")

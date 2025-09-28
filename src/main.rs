@@ -32,7 +32,7 @@ async fn main() {
         .route("/links", get(routes::links))
         .route("/settings", get(routes::settings))
         .route("/settings-post", post(routes::settings_post))
-        .route("/htmx/settings-section", get(routes::settings_section))
+        .route("/htmx/settings-section", get(routes::new_settings_section))
         .route("/htmx/settings-link", get(routes::settings_link))
         .nest_service("/assets", assets)
         .with_state(Arc::new(AppState::new(environment, config)));
