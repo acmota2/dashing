@@ -1,31 +1,18 @@
 use minijinja::Environment;
 use serde::{Deserialize, Serialize};
 use serde_json;
-use std::{
-    collections::HashMap,
-    fs::{self, File},
-    iter::zip,
-};
+use std::fs::{self, File};
 
 pub struct AppState {
     pub environment: Environment<'static>,
     pub config: ServerConfig,
-    pub form_state: HashMap<(String, usize), usize>,
 }
 
 impl AppState {
     pub fn new(environment: Environment<'static>, config: ServerConfig) -> Self {
-        let form_state = zip(
-            config.sections.iter(),
-            (0..config.sections.len()).into_iter(),
-        )
-        .map(|(v, i)| ((v.name.clone(), i), v.utils.len()))
-        .collect();
-
         Self {
             environment,
             config,
-            form_state,
         }
     }
 }
