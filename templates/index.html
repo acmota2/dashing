@@ -41,6 +41,7 @@
       </a>
     </header>
     <main id="main">
+      {% if is_home_route %}
       <section
         class="rounded-area"
         id="utils-section"
@@ -59,13 +60,13 @@
       >
         <p>Loading...</p>
       </section>
+      <!-- for /settings to work -for /settings to work -->
+      {% else %} {% include "settings.html" %} {% endif %}
     </main>
     <footer>acmota2 © 2025</footer>
   </body>
 
   <style>
     {% include "style.css" %}
-
-    {% include "settings.css" %}
   </style>
 </html>
