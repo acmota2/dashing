@@ -27,6 +27,7 @@ async fn main() {
         .route("/", get(routes::root))
         .route("/utils", get(routes::icons))
         .route("/links", get(routes::links))
+        .route("/settings", get(routes::settings))
         .nest_service("/assets", assets)
         .with_state(Arc::new(AppState::new(environment, config)));
 

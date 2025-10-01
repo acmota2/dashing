@@ -1,3 +1,7 @@
+#settings {
+  height: 100%;
+}
+
 #editor {
   /* Makes the textarea fill its parent's dimensions */
   width: 100%;
