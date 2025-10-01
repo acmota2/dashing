@@ -31,3 +31,12 @@ pub async fn links(State(state): State<Arc<AppState>>) -> Html<String> {
             .unwrap(),
     )
 }
+
+pub async fn settings(State(state): State<Arc<AppState>>) -> Html<String> {
+    let settings = state.environment.get_template("index.html").unwrap();
+    Html(
+        settings
+            .render(context! { json_content => state.config, is_home_route => false, server_name => state.config.server_name })
+            .unwrap(),
+    )
+}
