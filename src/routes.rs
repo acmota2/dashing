@@ -1,10 +1,10 @@
 use std::sync::Arc;
 
-use axum::{Form, extract::State, response::Html};
+use axum::{extract::State, response::Html};
 use minijinja::context;
-use serde::{Deserialize, Serialize};
+use serde_json::{json, to_string_pretty};
 
-use crate::config::{AppState, Link, UtilSection};
+use crate::config::AppState;
 
 pub async fn root(State(state): State<Arc<AppState>>) -> Html<String> {
     let index = state.environment.get_template("index.html").unwrap();
@@ -35,49 +35,14 @@ pub async fn links(State(state): State<Arc<AppState>>) -> Html<String> {
 
 pub async fn settings(State(state): State<Arc<AppState>>) -> Html<String> {
     let settings = state.environment.get_template("index.html").unwrap();
+    let config_json = json!(&state.config);
     Html(
         settings
-            .render(context! { is_home_route => false, server_name => state.config.server_name, sections => state.config.sections })
+            .render(context! { json_content => to_string_pretty(&config_json).unwrap(), is_home_route => false, server_name => state.config.server_name })
             .unwrap(),
     )
 }
 
-pub async fn new_settings_section(State(state): State<Arc<AppState>>) -> Html<String> {
-    let settings_sections = state
-        .environment
-        .get_template("settings-section.html")
-        .unwrap();
-    Html(
-        settings_sections
-            .render(context! {
-            section => UtilSection {
-                name: "".to_owned(),
-                utils: vec![],
-            }})
-            .unwrap(),
-    )
-}
-
-pub async fn settings_link(State(state): State<Arc<AppState>>) -> Html<String> {
-    let settings_links = state
-        .environment
-        .get_template("settings-link.html")
-        .unwrap();
-    Html(
-        settings_links
-            .render(
-                context! { link => Link { name: "".to_owned(), link: "".to_owned(), icon: None }},
-            )
-            .unwrap(),
-    )
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct FormItems {
-    pub items: Vec<UtilSection>,
-}
-
-pub async fn settings_post(Form(new_sections): Form<FormItems>) -> () {
-    // Html<String> {
-    println!("{:?}", new_sections);
+pub async fn _save_settings(State(_state): State<Arc<AppState>>) -> Html<String> {
+    todo!()
 }
