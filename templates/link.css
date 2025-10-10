@@ -1,30 +1,39 @@
-/* Base style for ALL link buttons */
-.bottom-button {
+.link-button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 14px;
-  padding: 12px;
-  border-radius: 10px;
-  border: solid 3px white;
-  font-size: 20px;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  gap: 12px;
+  font-size: 16px;
   font-weight: bold;
-  width: 100%; /* Make them fill their container by default */
+  border: none;
 }
 
-.util-link-anchor:hover .bottom-button {
-  background: rgba(210, 210, 210, 0.35);
-  transition: 0.15s;
+.link-button .icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
 }
 
-/* --- CONTEXTUAL RULE --- */
-/* When a link is in the horizontal .bottom-section, make it flexible */
+.link-button p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+}
+
+.util-link-anchor:hover .link-button {
+  background-color: rgba(210, 210, 210, 0.35);
+  transition: background-color 0.15s;
+}
+
 .bottom-section > .util-link-anchor {
-  flex: 1 1 20%;
+  flex: 0 1 22%;
+  min-width: 150px;
 }
 
-.icon {
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0; /* Prevents icon from shrinking if text is long */
+.main-section .link-button {
+  justify-content: flex-start;
 }

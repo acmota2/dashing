@@ -1,12 +1,16 @@
 .util-section {
-  /* This is a vertical card for holding a list of links */
   display: flex;
   flex-direction: column;
-  flex-basis: 300px; /* Each section will have a base width */
-  flex-shrink: 0; /* Prevents sections from squishing too much */
+  flex-basis: 300px;
+  flex-shrink: 0;
   padding: 32px;
   gap: 24px;
-  border: white solid 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.05),
+    0 10px 40px rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.1);
   border-radius: 16px;
   min-height: 0;
 }
@@ -19,14 +23,8 @@
 .link-section {
   display: flex;
   flex-direction: column;
-  gap: 16px; /* Space between links in the vertical list */
+  gap: 16px;
   min-height: 0;
   overflow-y: auto;
-  /* Adds a nice fade-out effect to the bottom of the scrollable area */
-  mask-image: linear-gradient(
-    to bottom,
-    black calc(100% - 48px),
-    transparent 100%
-  );
-  padding-right: 8px; /* Prevents scrollbar from overlapping content */
+  padding-right: 8px;
 }

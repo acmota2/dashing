@@ -1,21 +1,25 @@
 .main-section {
-  flex-grow: 1; /* This section with util links takes up the most space */
+  flex-grow: 1;
   flex-direction: row;
   min-height: 0;
-  height: 100%;
-  overflow-x: auto; /* Allows horizontal scrolling if many util sections are present */
+  overflow-x: auto;
 }
 
 .bottom-section {
-  flex-shrink: 0; /* This section with main links does not grow or shrink */
+  flex-shrink: 0;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
   gap: 16px;
-  height: 90px;
+  min-height: 90px;
+  justify-content: center;
 }
 
-/* CONTEXTUAL STYLES: This is the key fix */
-/* When a link is in the horizontal .bottom-section, make it flexible */
-.bottom-section > .util-link-anchor {
-  flex: 1 1 20%;
+.rounded-area {
+  display: flex;
+  gap: 24px;
+  backdrop-filter: blur(10px);
+  padding: 24px;
+  border: solid white 5px;
+  border-radius: 16px;
 }

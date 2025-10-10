@@ -35,7 +35,7 @@
       </a>
       <a
         href="/settings"
-        id="settings"
+        id="settings-button"
         hx-trigger="click"
         hx-select="main"
         hx-target="main"
@@ -44,6 +44,13 @@
       >
         <img src="/assets/settings.svg" hx-boost="false" />
       </a>
+      <style>
+        {% if is_home_route %}
+            {% include "home.css" %}
+        {% endif %}
+        {% include "style.css" %}
+        {% include "header.css" %}
+      </style>
     </header>
     <main id="main">
       {% if is_home_route %}
@@ -68,9 +75,4 @@
     </main>
     <footer>acmota2 © 2025</footer>
   </body>
-
-  <style>
-    {% include "style.css" %}
-    {% include "header.css" %}
-  </style>
 </html>

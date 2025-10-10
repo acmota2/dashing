@@ -1,18 +1,11 @@
-/* 1. Shared base styles for ANY element with the .bottom-item class */
 .bottom-item {
-  /* Layout */
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 14px;
-
-  /* Appearance */
   padding: 12px;
   border-radius: 10px;
-  border: solid 3px white;
   transition: background-color 0.15s;
-
-  /* Typography */
   font-size: 20px;
   font-weight: bold;
 }
@@ -23,23 +16,19 @@
   flex-shrink: 0;
 }
 
-/* 2. Specific styles for <a> tags using .bottom-item */
 a.bottom-item {
   text-decoration: none;
-  color: white; /* Ensure text color is consistent */
+  color: white;
 }
 
-/* 3. Specific styles for <button> tags using .bottom-item */
 button.bottom-item {
-  background: none; /* Override default browser button background */
-  color: white; /* Ensure text color is consistent */
-  width: 100%; /* Make button fill its container */
-  justify-content: flex-start; /* Align content to the left like the <a> tags */
+  background: none;
+  color: white;
+  width: 100%;
+  justify-content: flex-start;
   cursor: pointer;
 }
 
-/* 4. Shared Hover Effect */
-/* We target the anchor tag to apply the hover effect to the item inside it */
 .util-link-anchor:hover .bottom-item,
 button.bottom-item:hover {
   background-color: rgba(210, 210, 210, 0.35);
