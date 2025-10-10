@@ -1,0 +1,21 @@
+.main-section {
+  flex-grow: 1; /* This section with util links takes up the most space */
+  flex-direction: row;
+  min-height: 0;
+  height: 100%;
+  overflow-x: auto; /* Allows horizontal scrolling if many util sections are present */
+}
+
+.bottom-section {
+  flex-shrink: 0; /* This section with main links does not grow or shrink */
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  height: 90px;
+}
+
+/* CONTEXTUAL STYLES: This is the key fix */
+/* When a link is in the horizontal .bottom-section, make it flexible */
+.bottom-section > .util-link-anchor {
+  flex: 1 1 20%;
+}

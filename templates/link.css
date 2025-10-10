@@ -1,37 +1,30 @@
-.util-link-anchor {
-  color: white;
-  text-decoration: none;
+/* Base style for ALL link buttons */
+.bottom-button {
   display: flex;
-  flex: 1 1 20%;
-  max-height: 64px;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  border: solid 3px white;
+  font-size: 20px;
+  font-weight: bold;
+  width: 100%; /* Make them fill their container by default */
+}
+
+.util-link-anchor:hover .bottom-button {
+  background: rgba(210, 210, 210, 0.35);
   transition: 0.15s;
 }
 
-@media screen and (width < 1024px) {
-  .util-link-anchor {
-    max-width: 100%;
-  }
-}
-
-.util-link-anchor:hover {
-  background: rgba(210, 210, 210, 0.35);
-  border-radius: 10px;
-}
-
-article {
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  align-items: center;
-  padding: 12px;
-  gap: 14px;
-  border: solid 3px white;
-  border-radius: 10px;
-  font-size: 20px;
-  font-style: bold;
+/* --- CONTEXTUAL RULE --- */
+/* When a link is in the horizontal .bottom-section, make it flexible */
+.bottom-section > .util-link-anchor {
+  flex: 1 1 20%;
 }
 
 .icon {
   width: 32px;
   height: 32px;
+  flex-shrink: 0; /* Prevents icon from shrinking if text is long */
 }

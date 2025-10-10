@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use axum::{extract::State, response::Html};
 use minijinja::context;
+use serde_json::{json, to_string_pretty};
 
 use crate::config::AppState;
 
@@ -34,9 +35,14 @@ pub async fn links(State(state): State<Arc<AppState>>) -> Html<String> {
 
 pub async fn settings(State(state): State<Arc<AppState>>) -> Html<String> {
     let settings = state.environment.get_template("index.html").unwrap();
+    let config_json = json!(&state.config);
     Html(
         settings
-            .render(context! { json_content => state.config, is_home_route => false, server_name => state.config.server_name })
+            .render(context! { json_content => to_string_pretty(&config_json).unwrap(), is_home_route => false, server_name => state.config.server_name })
             .unwrap(),
     )
+}
+
+pub async fn _save_settings(State(_state): State<Arc<AppState>>) -> Html<String> {
+    todo!()
 }

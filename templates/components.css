@@ -1,3 +1,5 @@
+/* === Shared Component Styles === */
+
 .util-section {
   /* This is a vertical card for holding a list of links */
   display: flex;
@@ -29,4 +31,29 @@
     transparent 100%
   );
   padding-right: 8px; /* Prevents scrollbar from overlapping content */
+}
+
+/* Base style for ALL link buttons */
+.bottom-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  border: solid 3px white;
+  font-size: 20px;
+  font-weight: bold;
+  width: 100%; /* Make them fill their container by default */
+}
+
+.util-link-anchor:hover .bottom-button {
+  background: rgba(210, 210, 210, 0.35);
+  transition: 0.15s;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0; /* Prevents icon from shrinking if text is long */
 }

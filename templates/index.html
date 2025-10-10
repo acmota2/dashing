@@ -12,7 +12,12 @@
       integrity="sha384-Akqfrbj/HpNVo8k11SXBb6TlBWmXXlYQrCSqEWmyKJe+hDm3Z/B2WVG4smwBkRVm"
       crossorigin="anonymous"
     ></script>
-    <script src="https://unpkg.com/hyperscript.org@0.9.14"></script>
+    <!-- <script src="https://unpkg.com/hyperscript.org@0.9.14"></script> -->
+    <!-- <script src="https://unpkg.com/@codemirror/state@6.4.1/dist/index.js"></script> -->
+    <!-- <script src="https://unpkg.com/@codemirror/view@6.26.3/dist/index.js"></script> -->
+    <!-- <script src="https://unpkg.com/@codemirror/language@6.10.1/dist/index.js"></script> -->
+    <!-- <script src="https://unpkg.com/@codemirror/lang-json@6.0.1/dist/index.js"></script> -->
+    <!-- <script src="https://unpkg.com/@codemirror/theme-one-dark@6.1.2/dist/index.js"></script> -->
   </head>
 
   <body>
@@ -43,8 +48,7 @@
     <main id="main">
       {% if is_home_route %}
       <section
-        class="rounded-area"
-        id="utils-section"
+        class="rounded-area main-section"
         hx-trigger="load"
         hx-get="/utils"
         hx-swap="innerHTML"
@@ -52,15 +56,14 @@
         <p>Loading...</p>
       </section>
       <section
-        class="rounded-area"
-        id="useful-links"
+        class="rounded-area bottom-section"
         hx-trigger="load"
         hx-get="/links"
         hx-swap="innerHTML"
       >
         <p>Loading...</p>
       </section>
-      <!-- for /settings to work -for /settings to work -->
+      <!-- for /settings to work -->
       {% else %} {% include "settings.html" %} {% endif %}
     </main>
     <footer>acmota2 © 2025</footer>
@@ -68,5 +71,6 @@
 
   <style>
     {% include "style.css" %}
+    {% include "header.css" %}
   </style>
 </html>

@@ -1,0 +1,28 @@
+/* === Header Styles === */
+
+header#top {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#server-name {
+  font-size: 50px;
+  font-weight: bold;
+  margin: 0;
+}
+
+#settings {
+  width: 66px;
+  height: 66px;
+  padding: 12px;
+  /* Override .rounded-area styles for the icon wrapper to make it a circle on hover */
+  border: none;
+  background: none;
+  transition: background-color 0.25s;
+}
+
+#settings:hover {
+  background-color: rgba(210, 210, 210, 0.35);
+  border-radius: 100%;
+}

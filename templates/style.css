@@ -1,5 +1,14 @@
+/* --- 1. Global Styles & Font --- */
 * {
-  font-family: "JetBrains Mono";
+  box-sizing: border-box; /* A more intuitive box model */
+  font-family: "JetBrains Mono", monospace;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  color: white;
 }
 
 a {
@@ -7,111 +16,62 @@ a {
   color: unset;
 }
 
-html,
+/* --- 2. Primary Page Layout (The Foundation) --- */
 body {
-  height: 100%;
-}
-
-body,
-main {
-  min-height: 0;
+  /* We make the body the main flex container. This is the key to the whole layout. */
   display: flex;
   flex-direction: column;
+  background: #2596b0 url(assets/img1.jpg) no-repeat center center fixed;
+  background-size: cover;
+  padding: 12px;
+  gap: 12px; /* This creates consistent spacing between header, main, and footer */
 }
 
-body {
-  background-color: #2596b0;
-  background: url(assets/img1.jpg) no-repeat center center fixed;
-  margin: 0;
-  color: white;
+header,
+footer {
+  flex-shrink: 0; /* Prevents the header and footer from shrinking */
 }
 
-main {
-  height: 100%;
+main#main {
+  flex-grow: 1; /* Allows the main content area to fill all available vertical space */
+  display: flex;
+  flex-direction: column; /* Stacks the sections inside <main> vertically by default */
+  min-height: 0; /* A critical fix for flexbox overflow bugs */
+  gap: 24px; /* Consistent spacing for sections inside main */
 }
 
-#main {
-  transition: 0.2s;
+footer {
+  text-align: center;
 }
 
-#home:link {
-  text-decoration: none;
-}
-
-#home:hover {
-  text-decoration: none;
-}
-
-#home:visited {
-  color: white;
-  text-decoration: none;
-}
-
+/* --- 3. Reusable Components (Your "rounded-area" is the main one) --- */
 .rounded-area {
   display: flex;
   gap: 24px;
   backdrop-filter: blur(10px);
+  background: rgba(
+    20,
+    20,
+    20,
+    0.25
+  ); /* Added a subtle background for better contrast */
   padding: 24px;
-  margin: 12px;
-  border: solid white 5px;
+  border: solid white 3px;
   border-radius: 16px;
 }
 
-#top {
-  flex: 0 1;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#settings {
-  width: 66px;
-  height: 66px;
-}
-
-#settings:hover {
-  background: rgba(210, 210, 210, 0.35);
-  transition: 0.25s;
-  border-radius: 100%;
-}
-
-#server-name {
-  font-size: 50px;
-  font-style: bold;
-  margin: 0;
-  border: 0;
-}
-
-#utils-section {
-  flex-grow: 1;
+.main-section {
+  flex-grow: 1; /* This section with util links takes up the most space */
   flex-direction: row;
   min-height: 0;
-  overflow-x: auto;
+  height: 100%;
+  overflow-x: auto; /* Allows horizontal scrolling if many util sections are present */
 }
 
-#utils-section > * {
-  flex: 1 1 240px;
-}
-
-footer {
-  flex: 0 1;
-  display: flex;
-  justify-content: center;
-  padding: 12px;
-  padding-top: 1px;
-}
-
-#useful-links {
-  display: flex;
+.bottom-section {
+  /* flex-shrink: 0; /* This section with main links does not grow or shrink */
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
-  align-content: flex-start;
-}
-
-@media screen and (width < 1024px) {
-  #useful-links {
-    flex-direction: column;
-  }
+  gap: 16px;
+  height: 90px;
 }
