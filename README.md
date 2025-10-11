@@ -2,21 +2,18 @@
 
 A lightweight, self-hosted dashboard built with Rust and HTMX, designed for simplicity and speed.
 
-<!-- 
-    TODO: Add a high-quality GIF or screenshot here showing the main interface.
-    This is the first thing people will see, so it's worth making a good one.
--->
-
+![Homepage](./screenshots/home.png)
+![Settings page](./screenshots/settings.png)
 
 ## Core Concepts
 
-The goal of Dashing is to provide a fast and resource-efficient dashboard without the overhead of modern frontend frameworks. By leveraging a performant, server-side Rust backend and the dynamic capabilities of HTMX, the application remains simple, maintainable, and highly responsive.
+The goal of Dashing is to provide a fast and resource-efficient dashboard without the overhead of modern frontend frameworks. Simplicity is the key, and this is achieved with Rust for the backend and HTMX for the frontend, which results in a simple and fast application.
 
-This approach minimizes client-side JavaScript, resulting in a tiny payload and a snappy user experience.
+This approach also minimizes client-side JavaScript, resulting in a tiny payload and a snappy user experience.
 
 ## Features
 
-* **Link Management:** A central place to organize and quickly access your most-used links via a single JSON configuration file.
+* **Link Management:** A central place to organize and quickly access your most-used links.
 * **Live Editing:** The configuration can be edited directly from the frontend, with server-side validation.
 * **Server-Rendered UI:** All interactions are handled on the server, keeping the client lightweight.
 * **Minimalist Stack:** Built on a robust and memory-safe Rust backend for reliability.
@@ -27,8 +24,8 @@ This approach minimizes client-side JavaScript, resulting in a tiny payload and 
 * **Backend:** Rust
     * **Web Framework:** [axum](https://github.com/tokio-rs/axum)
     * **Templating:** [minijinja](https://docs.rs/minijinja/latest/minijinja/)
-    * **Serialization:** [serde](https://serde.rs/) for robust JSON handling.
-* **Frontend:** [HTMX](https://htmx.org/) for handling all dynamic interactions.
+    * **Serialization:** [serde](https://serde.rs/)
+* **Frontend:** [HTMX](https://htmx.org/)
 * **Data Persistence:** A single `config.json` file serves as the data source.
 
 ## Getting Started
@@ -42,7 +39,7 @@ This approach minimizes client-side JavaScript, resulting in a tiny payload and 
 
 1.  **Clone the repository:**
     ```sh
-    git clone [https://github.com/](https://github.com/)acmota2/dashing.git
+    git clone https://github.com/acmota2/dashing.git
     cd dashing
     ```
 
@@ -66,6 +63,10 @@ For a reproducible development environment, you can use the provided `flake.nix`
     ```sh
     nix develop
     ```
+    **Optionally, you can also preserve your shell**:
+    ```sh
+    nix develop -c $SHELL
+    ```
 
 2.  **Run with live reloading:**
     ```sh
@@ -79,7 +80,7 @@ This will watch your project for changes and automatically recompile and restart
 This project is in its early stages. Future planned enhancements include:
 
 * [ ] **Dashboard Widgets:** Integrate configurable widgets for displaying real-time information (e.g., system stats, weather, API data).
-* [ ] **Reactive Theming:** Introduce themes (e.g., light/dark modes) that adapt based on the user's background image.
+* [ ] **Reactive Theming:** Introduce themes (e.g. color picking based on a possibe to change background) that adapt based on the user's background image.
 * [ ] **Enhanced Interactivity:** Explore using `_hyperscript` for minor client-side enhancements where necessary.
 
 ## License
