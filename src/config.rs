@@ -1,31 +1,19 @@
 use minijinja::Environment;
 use serde::{Deserialize, Serialize};
 use serde_json;
-use std::{
-    collections::HashMap,
-    fs::{self, File},
-    iter::zip,
-};
+use std::fs::{self, File};
+use tokio::sync::RwLock;
 
 pub struct AppState {
     pub environment: Environment<'static>,
-    pub config: ServerConfig,
-    pub form_state: HashMap<(String, usize), usize>,
+    pub config: RwLock<ServerConfig>,
 }
 
 impl AppState {
     pub fn new(environment: Environment<'static>, config: ServerConfig) -> Self {
-        let form_state = zip(
-            config.sections.iter(),
-            (0..config.sections.len()).into_iter(),
-        )
-        .map(|(v, i)| ((v.name.clone(), i), v.utils.len()))
-        .collect();
-
         Self {
             environment,
-            config,
-            form_state,
+            config: RwLock::new(config),
         }
     }
 }
@@ -65,8 +53,12 @@ impl ServerConfig {
         )?)?)
     }
 
-    pub fn write_to(&self, path: Option<&str>) -> std::io::Result<()> {
+    pub fn write_to_file(&self, path: Option<&str>) -> std::io::Result<()> {
         let data = serde_json::to_string(self)?;
         fs::write(path.unwrap_or("./config.json"), data)
+    }
+
+    pub fn rewrite_config(json: &str) -> Result<Self, serde_json::Error> {
+        Ok(serde_json::from_str(json)?)
     }
 }

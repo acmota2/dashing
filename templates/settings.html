@@ -1,0 +1,21 @@
+<section class="rounded-area main-section" id="settings-section">
+  <textarea id="editor" name="json_content">{{ json_content }}</textarea>
+</section>
+<section class="rounded-area bottom-section" id="settings-buttons">
+  <button
+    class="bottom-item"
+    id="accept"
+    hx-post="/save-settings"
+    hx-include="#editor"
+    hx-target="#response-message"
+    hx-swap="innerHTML"
+  >
+    Save Changes
+  </button>
+  <div id="response-message"></div>
+</section>
+
+<style>
+  {% include "settings.css" %}
+  {% include "bottom-item.css" %}
+</style>

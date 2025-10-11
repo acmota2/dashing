@@ -1,12 +1,12 @@
 {
-  description = "Flake for Rust+htmx";
+  description = "Flake for dashing";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
   };
 
   outputs =
-    { self, nixpkgs, ... }@inputs:
+    { nixpkgs, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};

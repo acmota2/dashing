@@ -1,0 +1,35 @@
+.bottom-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  transition: background-color 0.15s;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.bottom-item .icon {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+a.bottom-item {
+  text-decoration: none;
+  color: white;
+}
+
+button.bottom-item {
+  background: none;
+  color: white;
+  width: 100%;
+  justify-content: flex-start;
+  cursor: pointer;
+}
+
+.util-link-anchor:hover .bottom-item,
+button.bottom-item:hover {
+  background-color: rgba(210, 210, 210, 0.35);
+}

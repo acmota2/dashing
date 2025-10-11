@@ -1,83 +1,90 @@
 use std::sync::Arc;
 
-use axum::{Form, extract::State, response::Html};
+use axum::{
+    extract::State,
+    http::StatusCode,
+    response::{Form, Html, IntoResponse},
+};
 use minijinja::context;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
+use serde_json::{json, to_string_pretty};
 
-use crate::config::{AppState, Link, UtilSection};
+use crate::config::{AppState, ServerConfig};
 
 pub async fn root(State(state): State<Arc<AppState>>) -> Html<String> {
     let index = state.environment.get_template("index.html").unwrap();
+    let config = state.config.read().await;
     Html(
         index
-            .render(context! { server_name => state.config.server_name, is_home_route => true })
+            .render(context! { server_name => config.server_name, is_home_route => true })
             .unwrap(),
     )
 }
 
 pub async fn icons(State(state): State<Arc<AppState>>) -> Html<String> {
     let icons = state.environment.get_template("util-section.html").unwrap();
+    let config = state.config.read().await;
     Html(
         icons
-            .render(context! { sections => state.config.sections })
+            .render(context! { sections => config.sections })
             .unwrap(),
     )
 }
 
 pub async fn links(State(state): State<Arc<AppState>>) -> Html<String> {
     let links = state.environment.get_template("links.html").unwrap();
-    Html(
-        links
-            .render(context! { links => state.config.links })
-            .unwrap(),
-    )
+    let config = state.config.read().await;
+    Html(links.render(context! { links => config.links }).unwrap())
 }
 
 pub async fn settings(State(state): State<Arc<AppState>>) -> Html<String> {
     let settings = state.environment.get_template("index.html").unwrap();
+    let config = state.config.read().await;
+    let config_json = json!(*config);
     Html(
         settings
-            .render(context! { is_home_route => false, server_name => state.config.server_name, sections => state.config.sections })
+            .render(context! { json_content => to_string_pretty(&config_json).unwrap(), is_home_route => false, server_name => config.server_name })
             .unwrap(),
     )
 }
 
-pub async fn new_settings_section(State(state): State<Arc<AppState>>) -> Html<String> {
-    let settings_sections = state
+#[derive(Deserialize)]
+pub struct SaveSettings {
+    json_content: String,
+}
+
+pub async fn save_settings(
+    State(state): State<Arc<AppState>>,
+    Form(payload): Form<SaveSettings>,
+) -> impl IntoResponse {
+    let template = state
         .environment
-        .get_template("settings-section.html")
+        .get_template("save-settings-notification.html")
         .unwrap();
-    Html(
-        settings_sections
-            .render(context! {
-            section => UtilSection {
-                name: "".to_owned(),
-                utils: vec![],
-            }})
-            .unwrap(),
-    )
-}
+    let new_config = match ServerConfig::rewrite_config(&payload.json_content) {
+        Ok(cfg) => cfg,
+        Err(e) => {
+            eprintln!("[ERROR] Wrong JSON format: {}", e);
+            let html = template
+                .render(context! { message => "Could not save settings" })
+                .unwrap();
+            return (StatusCode::OK, Html(html)).into_response();
+        }
+    };
 
-pub async fn settings_link(State(state): State<Arc<AppState>>) -> Html<String> {
-    let settings_links = state
-        .environment
-        .get_template("settings-link.html")
+    if let Err(e) = new_config.write_to_file(None) {
+        eprintln!("[ERROR] Failed to write config to file: {}", e);
+        let html = template
+            .render(context! { message => "Could not write configuration to file" })
+            .unwrap();
+        return (StatusCode::OK, Html(html)).into_response();
+    }
+    println!("[INFO] Wrote file successfully");
+
+    let mut config_guard = state.config.write().await;
+    *config_guard = new_config;
+    let html = template
+        .render(context! { message => "Settings saved successfully" })
         .unwrap();
-    Html(
-        settings_links
-            .render(
-                context! { link => Link { name: "".to_owned(), link: "".to_owned(), icon: None }},
-            )
-            .unwrap(),
-    )
-}
-
-#[derive(Serialize, Deserialize, Debug)]
-pub struct FormItems {
-    pub items: Vec<UtilSection>,
-}
-
-pub async fn settings_post(Form(new_sections): Form<FormItems>) -> () {
-    // Html<String> {
-    println!("{:?}", new_sections);
+    (StatusCode::OK, Html(html)).into_response()
 }
