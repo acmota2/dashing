@@ -3,7 +3,10 @@ mod routes;
 
 use std::sync::Arc;
 
-use axum::{Router, routing::get};
+use axum::{
+    Router,
+    routing::{get, post},
+};
 use config::{AppState, ServerConfig};
 use minijinja::Environment;
 use tower_http::services::ServeDir;
@@ -28,6 +31,7 @@ async fn main() {
         .route("/utils", get(routes::icons))
         .route("/links", get(routes::links))
         .route("/settings", get(routes::settings))
+        .route("/save-settings", post(routes::save_settings))
         .nest_service("/assets", assets)
         .with_state(Arc::new(AppState::new(environment, config)));
 

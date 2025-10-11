@@ -7,9 +7,12 @@
     id="accept"
     hx-post="/save-settings"
     hx-include="#editor"
+    hx-target="#response-message"
+    hx-swap="innerHTML"
   >
     Save Changes
   </button>
+  <div id="response-message"></div>
 </section>
 
 <style>
