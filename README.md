@@ -1,88 +1,74 @@
 # Dashing
 
-A lightweight, self-hosted dashboard built with Rust and HTMX, designed for simplicity and speed.
+Dashing is a lightweight, self-hosted dashboard for organizing general links and home server pages.
+It is designed to be fast, resource-efficient, and easy to run as a single container.
+
+The application uses a server-rendered UI built with Rust and HTMX so interactions are responsive and simple.
 
 ![Homepage](./screenshots/home.png)
 ![Settings page](./screenshots/settings.png)
 
-## Core Concepts
-
-The goal of Dashing is to provide a fast and resource-efficient dashboard without the overhead of modern frontend frameworks. Simplicity is the key, and this is achieved with Rust for the backend and HTMX for the frontend, which results in a simple and fast application.
-
-This approach also minimizes client-side JavaScript, resulting in a tiny payload and a snappy user experience.
-
 ## Features
 
-* **Link Management:** A central place to organize and quickly access your most-used links.
-* **Live Editing:** The configuration can be edited directly from the frontend, with server-side validation.
-* **Server-Rendered UI:** All interactions are handled on the server, keeping the client lightweight.
-* **Minimalist Stack:** Built on a robust and memory-safe Rust backend for reliability.
-* **Self-Hosted:** Full control over your data and deployment.
+- Link and utility organization
+- Live configuration editing with server-side validation
+- Server-rendered UI using HTMX
+- Single-file JSON configuration
+- Self-hosted using containers
 
-## Tech Stack
+## Runtime configuration
 
-* **Backend:** Rust
-    * **Web Framework:** [axum](https://github.com/tokio-rs/axum)
-    * **Templating:** [minijinja](https://docs.rs/minijinja/latest/minijinja/)
-    * **Serialization:** [serde](https://serde.rs/)
-* **Frontend:** [HTMX](https://htmx.org/)
-* **Data Persistence:** A single `config.json` file serves as the data source.
+Dashing is configured via environment variables and a JSON configuration file.
+When running in a container, the following environment variables are recognized:
 
-## Getting Started
+- **`CONFIG_PATH`** 
+  Path to the configuration file.  
+  Default: `/etc/dashing/config.json`
 
-### Prerequisites
+- **`ASSETS_PATH`**  
+  Path to the static assets directory served by the application.  
+  Default: `/assets`
 
-* Rust toolchain (latest stable recommended)
-* Git
+These defaults are suitable for containerized usage. Both paths can be overridden if needed.
 
-### Installation & Running
+## Tech stack
 
-1.  **Clone the repository:**
-    ```sh
-    git clone https://github.com/acmota2/dashing.git
-    cd dashing
-    ```
+- **Backend:** Rust
+    - Web framework: [axum](https://github.com/tokio-rs/axum)
+    - Templating: [minijinja](https://docs.rs/minijinja/latest/minijinja/)
+    - Serialization: [serde](https://serde.rs/)
+- **Frontend:** [HTMX](https://htmx.org/)
+    - Any client-side enhancements are expected to be incremental and lightweight, `_hyperscript` being the preferred option
+- **Configuration:** JSON
+- **Distribution:** OCI container (Docker / Podman compatible)
 
-2.  **Build the application:**
-    ```sh
-    cargo build --release
-    ```
+## Project status
 
-3.  **Run the binary:**
-    ```sh
-    ./target/release/dashing
-    ```
+Dashing implements the intended application end-to-end and reflects the overall structure and behavior of the final design.
 
-By default, the application should now be accessible at `http://localhost:8080`.
+The current state prioritizes validating the application’s flow and interaction model over comprehensive error handling and operational robustness. The intended user experience is reasonably shown in the current frontend. Parts of the backend still favor direct failure over user-facing feedback.
 
-### Development with Nix
+Certain classes of errors might abruptly shutdown the application.
 
-For a reproducible development environment, you can use the provided `flake.nix` file. This is especially useful for tools like `bacon` (for live reloading) when using NixOS.
+---
 
-1.  **Enter the development shell:**
-    ```sh
-    nix develop
-    ```
-    **Optionally, you can also preserve your shell**:
-    ```sh
-    nix develop -c $SHELL
-    ```
+## Future plans
 
-2.  **Run with live reloading:**
-    ```sh
-    bacon run
-    ```
+- Improved configuration validation and feedback
+- Optional dashboard widgets (system information, external API data, etc.)
+- Minor UI and theming refinements
 
-This will watch your project for changes and automatically recompile and restart the server.
+---
 
-## Roadmap
+## Contributors
 
-This project is in its early stages. Future planned enhancements include:
+- **@acmota2** — original author and maintainer
 
-* [ ] **Dashboard Widgets:** Integrate configurable widgets for displaying real-time information (e.g., system stats, weather, API data).
-* [ ] **Reactive Theming:** Introduce themes (e.g. color picking based on a possibe to change background) that adapt based on the user's background image.
-* [ ] **Enhanced Interactivity:** Explore using `_hyperscript` for minor client-side enhancements where necessary.
+Additional contributors may be listed here as the project evolves.
+
+---
 
 ## License
 
 This project is licensed under the GNU General Public License v3.0.
+
