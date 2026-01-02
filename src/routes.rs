@@ -72,7 +72,7 @@ pub async fn save_settings(
         }
     };
 
-    if let Err(e) = new_config.write_to_file(None) {
+    if let Err(e) = new_config.write_to_file(&state.file_path) {
         eprintln!("[ERROR] Failed to write config to file: {}", e);
         let html = template
             .render(context! { message => "Could not write configuration to file" })
