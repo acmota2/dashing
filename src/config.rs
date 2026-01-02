@@ -1,17 +1,19 @@
 use minijinja::Environment;
 use serde::{Deserialize, Serialize};
 use serde_json;
-use std::fs::{self, File};
+use std::fs::{File, write};
 use tokio::sync::RwLock;
 
 pub struct AppState {
+    pub file_path: String,
     pub environment: Environment<'static>,
     pub config: RwLock<ServerConfig>,
 }
 
 impl AppState {
-    pub fn new(environment: Environment<'static>, config: ServerConfig) -> Self {
+    pub fn new(environment: Environment<'static>, config: ServerConfig, config_path: &str) -> Self {
         Self {
+            file_path: config_path.to_string(),
             environment,
             config: RwLock::new(config),
         }
@@ -39,23 +41,13 @@ pub struct UtilSection {
 }
 
 impl ServerConfig {
-    pub fn new() -> Self {
-        Self {
-            server_name: "".to_owned(),
-            links: Vec::new(),
-            sections: Vec::new(),
-        }
+    pub fn load(config_path: &str) -> std::io::Result<Self> {
+        Ok(serde_json::from_reader(File::open(config_path)?)?)
     }
 
-    pub fn populate(&mut self, path: Option<&str>) -> std::io::Result<Self> {
-        Ok(serde_json::from_reader(File::open(
-            path.unwrap_or("./config.json"),
-        )?)?)
-    }
-
-    pub fn write_to_file(&self, path: Option<&str>) -> std::io::Result<()> {
+    pub fn write_to_file(&self, config_path: &str) -> std::io::Result<()> {
         let data = serde_json::to_string(self)?;
-        fs::write(path.unwrap_or("./config.json"), data)
+        write(config_path, data)
     }
 
     pub fn rewrite_config(json: &str) -> Result<Self, serde_json::Error> {
