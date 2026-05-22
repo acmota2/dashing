@@ -6,3 +6,4 @@ target
 flake.*
 README.md
 a.out
+config.json
